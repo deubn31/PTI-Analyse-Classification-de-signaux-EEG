@@ -1,0 +1,12 @@
+#A propos de la base de données
+
+Sets A et B: 
+5 patients sains, mesures depuis la surface du crâne (petite tension de quelques µv) 
+A: yeux ouverts
+B : yeux fermés
+
+Sets C, D et E: 
+5 patients ayant souffert puis guéri d’une crise épileptique, mesures intracraniennes (100 µV) 
+C : formation hippocampique
+D : zone épileptique 
+E : mesures au moment de crises depuis plusieurs endroits
