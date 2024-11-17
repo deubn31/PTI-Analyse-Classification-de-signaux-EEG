@@ -1,16 +1,20 @@
-# For windows: put jq-win64.exe in parent folder if other methods don't work
-alias jq='../jq/jq-win64.exe'
+#!/bin/bash  
 
-# For conda: set the path to the anaconda environment
-PATH=$PATH:/d/CreativeCenter/anaconda3/envs/PAN/
+# Pour conda : définir le chemin vers l'environnement anaconda  
+PATH=$PATH:$HOME/anaconda3/envs/PAN/  
 
-start=0
-end=`cat config.json | jq '.data_loader.args.num_folds'`
-end=$((end-1))
+# Lire le nombre de folds depuis config.json  
+num_folds=$(jq '.data_loader.args.num_folds' config.json)  
+start=0  
+end=$((num_folds - 1))  
 
-# Loop over all the folds and trainers the model
-for i in $(eval echo {$start..$end})
-do
-   python train_kfold_cv.py --fold_id=$i
-done
+echo "Training folds from $start to $end"  
+
+# Boucle simple en utilisant la syntaxe traditionnelle for  
+for i in $(seq $start $end)  
+do  
+    echo "Training fold $i..."  
+    python train_kfold_cv.py --fold_id $i  
+done  
+
 echo '========= Model has been trained ========='

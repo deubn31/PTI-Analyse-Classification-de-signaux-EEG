@@ -1,0 +1,114 @@
+2024-11-17 21:27:12,204 - trainers - INFO - PainAttnNet(
+  (mscn): MSCN(
+    (short_scale): Sequential(
+      (0): Conv1d(1, 64, kernel_size=(50,), stride=(6,), padding=(24,), bias=False)
+      (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): GELU(approximate='none')
+      (3): MaxPool1d(kernel_size=8, stride=2, padding=4, dilation=1, ceil_mode=False)
+      (4): Dropout(p=0.5, inplace=False)
+      (5): Conv1d(64, 128, kernel_size=(8,), stride=(1,), padding=(4,), bias=False)
+      (6): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (7): GELU(approximate='none')
+      (8): Conv1d(128, 64, kernel_size=(8,), stride=(1,), padding=(4,), bias=False)
+      (9): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (10): GELU(approximate='none')
+      (11): MaxPool1d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+    )
+    (medium_scale): Sequential(
+      (0): Conv1d(1, 64, kernel_size=(512,), stride=(42,), padding=(256,), bias=False)
+      (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): GELU(approximate='none')
+      (3): MaxPool1d(kernel_size=4, stride=4, padding=0, dilation=1, ceil_mode=False)
+      (4): Dropout(p=0.5, inplace=False)
+      (5): Conv1d(64, 128, kernel_size=(4,), stride=(1,), padding=(3,), bias=False)
+      (6): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (7): GELU(approximate='none')
+      (8): Conv1d(128, 64, kernel_size=(4,), stride=(1,), padding=(3,), bias=False)
+      (9): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (10): GELU(approximate='none')
+      (11): MaxPool1d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+    )
+    (long_scale): Sequential(
+      (0): Conv1d(1, 64, kernel_size=(1024,), stride=(84,), padding=(512,), bias=False)
+      (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): GELU(approximate='none')
+      (3): MaxPool1d(kernel_size=8, stride=8, padding=0, dilation=1, ceil_mode=False)
+      (4): Dropout(p=0.5, inplace=False)
+      (5): Conv1d(64, 128, kernel_size=(7,), stride=(1,), padding=(3,), bias=False)
+      (6): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (7): GELU(approximate='none')
+      (8): Conv1d(128, 64, kernel_size=(7,), stride=(1,), padding=(3,), bias=False)
+      (9): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (10): GELU(approximate='none')
+      (11): MaxPool1d(kernel_size=2, stride=2, padding=1, dilation=1, ceil_mode=False)
+    )
+    (dropout): Dropout(p=0.5, inplace=False)
+    (fc_short): Linear(in_features=60, out_features=75, bias=True)
+    (fc_medium): Linear(in_features=12, out_features=75, bias=True)
+    (fc_long): Linear(in_features=3, out_features=75, bias=True)
+  )
+  (seresnet): SEResNet(
+    (layer): Sequential(
+      (0): SEBasicBlock(
+        (conv1): Conv1d(192, 30, kernel_size=(1,), stride=(1,))
+        (bn1): BatchNorm1d(30, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (relu): ReLU(inplace=True)
+        (conv2): Conv1d(30, 30, kernel_size=(1,), stride=(1,))
+        (bn2): BatchNorm1d(30, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (se): SENet(
+          (avg_pool): AdaptiveAvgPool1d(output_size=1)
+          (fc): Sequential(
+            (0): Linear(in_features=30, out_features=1, bias=False)
+            (1): ReLU(inplace=True)
+            (2): Linear(in_features=1, out_features=30, bias=False)
+            (3): Sigmoid()
+          )
+        )
+        (downsample): Sequential(
+          (0): Conv1d(192, 30, kernel_size=(1,), stride=(1,), bias=False)
+          (1): BatchNorm1d(30, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+  )
+  (encoderWrapper): EncoderWrapper(
+    (layers): ModuleList(
+      (0-1): 2 x TransformerEncoder(
+        (self_attn): MultiHeadAttention(
+          (tcn): ModuleList(
+            (0-1): 2 x TCN(
+              (conv1): Conv1d(30, 30, kernel_size=(7,), stride=(1,), padding=(6,))
+              (conv2): Conv1d(30, 30, kernel_size=(7,), stride=(1,), padding=(6,))
+              (bn1): BatchNorm1d(30, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (bn2): BatchNorm1d(30, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (relu): ReLU()
+            )
+          )
+          (multihead_attention): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=30, out_features=30, bias=True)
+          )
+        )
+        (feed_forward): MLP(
+          (w_1): Linear(in_features=75, out_features=120, bias=True)
+          (w_2): Linear(in_features=120, out_features=75, bias=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (sublayer_output): ModuleList(
+          (0-1): 2 x SublayerOutput(
+            (norm): LayerNorm((30,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (conv): TCN(
+          (conv1): Conv1d(30, 30, kernel_size=(7,), stride=(1,), padding=(6,))
+          (conv2): Conv1d(30, 30, kernel_size=(7,), stride=(1,), padding=(6,))
+          (bn1): BatchNorm1d(30, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bn2): BatchNorm1d(30, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (relu): ReLU()
+        )
+      )
+    )
+    (norm): LayerNorm((75,), eps=1e-05, elementwise_affine=True)
+  )
+  (fc): Linear(in_features=2250, out_features=2, bias=True)
+)
