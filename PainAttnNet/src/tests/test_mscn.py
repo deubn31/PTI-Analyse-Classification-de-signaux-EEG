@@ -12,7 +12,7 @@ class TestMSCN(unittest.TestCase):
         batch_size = 128
         seq_len = 2816
         channels = 1
-        sample_input = torch.randn(batch_size, channels, seq_len)
+        sample_input = torch.randn(batch_size, channels, seq_len) #gaussienne de moyenne nulle et variance 1 de dimension donnée dans les args
 
         # Print input dimension size
         print("Input dimension size:", sample_input.shape)
@@ -24,7 +24,7 @@ class TestMSCN(unittest.TestCase):
         print("Output dimension size:", output.shape)
 
         # Check if the output dimension size is as expected
-        self.assertEqual(output.size(0), batch_size)
+        self.assertEqual(output.size(0), batch_size) 
         # Check if the output channel size is as expected
         self.assertEqual(output.size(1), 192)
         # Check if the output length size is as expected
