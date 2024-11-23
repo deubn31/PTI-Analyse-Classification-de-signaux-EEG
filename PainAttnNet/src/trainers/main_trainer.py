@@ -45,7 +45,7 @@ class Trainer:
         self.data_loader = data_loader
         self.len_epoch = len(self.data_loader)
         self.valid_data_loader = valid_data_loader
-        self.do_validation = self.valid_data_loader is not None
+        self.do_validation = self.valid_data_loader is not None #donc variable booléenne selon qu'une base de données de validations ait été fournei
         self.log_step = int(data_loader.batch_size) * 1
 
         # Metrics
@@ -75,7 +75,7 @@ class Trainer:
         all_outs = []
         all_trgs = []
 
-        for epoch in range(self.start_epoch, self.epochs + 1):
+        for epoch in range(self.start_epoch, self.epochs + 1): #start_epoch initialisé à 1, epochs
             result, epoch_outs, epoch_trgs = self._train_epoch(epoch, self.epochs)
 
             # Save logged informations into log dict
