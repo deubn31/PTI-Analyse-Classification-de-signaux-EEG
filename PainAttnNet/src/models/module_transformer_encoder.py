@@ -12,7 +12,7 @@ from copy import deepcopy
 
 
 # Utility function
-def clones(module, N):
+def clones(module, N): 
     """
     Generate N identical layers
 
